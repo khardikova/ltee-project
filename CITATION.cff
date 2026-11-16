@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "LTEE variant calling"
+abstract: "Variant calling on LTEE E.coli samples"
+type: software
+authors:
+  - given-names: "Daria"
+    family-names: "Name"
+    email: "daria.khardikova@mbzuai.ac.ae"
+    orcid: "https://orcid.org/0009-0002-9707-1915"
+repository-code: "https://github.com/khardikova/ltee-project"
+license: MIT
+version: 0.1.0
+date-released: "2026-11-16"
