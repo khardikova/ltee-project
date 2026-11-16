@@ -1,0 +1,35 @@
+name: Container
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out the project
+        uses: actions/checkout@v7
+      - name: Build the locked pipeline environment
+        run: |
+          docker build --platform linux/amd64 \
+            -f containers/Dockerfile \
+            --build-arg ENV_NAME=pipeline \
+            -t ltee-project:ci .
+      - name: Download and verify the data
+        run: |
+          docker run --rm --platform linux/amd64 \
+            -v "$PWD":/work -w /work \
+            ltee-project:ci \
+            python scripts/download_data.py
+      - name: Run variant calling
+        run: |
+          docker run --rm --platform linux/amd64 \
+            -v "$PWD":/work -w /work \
+            ltee-project:ci \
+            bash scripts/run_variant_calling.sh
+      - name: Show variant counts
+        run: |
+          for f in results/vcf/*_final_variants.vcf; do
+            printf '%s\t%s\n' "$(basename "$f")" "$(grep -vc '^#' "$f")"
+          done
