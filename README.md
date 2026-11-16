@@ -55,3 +55,11 @@ MIT, see `LICENSE`.
 ---
 Project layout generated from the Reproducible and Open Science project template
 (<https://github.com/khan-lab/cbio7501-f26/tree/main/templates/cookiecutter-repro-project>).
+## Container
+Build the pipeline image from pixi.lock:
+```bash
+docker build --platform linux/amd64 -f containers/Dockerfile \
+  --build-arg ENV_NAME=pipeline -t ltee-project:0.1.0 .
+```
+The saved image is containers/ltee-project_0.1.0.tar.gz.
+Its checksum and local image ID are recorded in docs/.
